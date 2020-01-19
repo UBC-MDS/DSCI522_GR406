@@ -31,3 +31,9 @@ for the mean tip percentage of each time segment. This data could also be demons
 
 #### 5. Potential tables and figures to demonstrate results
 A boxplot with confidence intervals for the mean of each group could be a visually informative way of showing the distribution of mean tip percentages of different time segments. A small summary table showing the results of the F-test in the `ANOVA` analysis is also important so the reader can be informed of the statistical significance of any findings.
+
+
+#### References
+1. New York City Open Data, 2017 Yellow Taxi Trip Data, https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs 
+
+2. Data.World Open Data, Yellow Trip Data February 2017, https://data.world/new-york-city/yellow-tripdata-february-2017

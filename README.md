@@ -29,3 +29,8 @@ Original source is [New York Open Data](https://data.cityofnewyork.us/Transporta
     - GGally	1.4.0
     - docopt	0.6.1
     - RCurl		1.98 -  1.1
+    
+#### References
+1. New York City Open Data, 2017 Yellow Taxi Trip Data, https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs 
+
+2. Data.World Open Data, Yellow Trip Data February 2017, https://data.world/new-york-city/yellow-tripdata-february-2017
