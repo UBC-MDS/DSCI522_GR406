@@ -18,13 +18,14 @@ Original source is [New York Open Data](https://data.cityofnewyork.us/Transporta
 
 ### Dependencies
 - R version 3.6.1 and R packages:
-    - MASS
-    - tidyverse
-    - broom
-    - repr
-    - modelr
-    - ggplot2
-    - gridExtra
-    - ggridges
-    - GGally
-    - docopt
+    - MASS		7.3 - 51.4
+    - tidyverse	1.3.0
+    - broom		0.5.2
+    - repr		1.0.2
+    - modelr	0.1.5
+    - ggplot2	3.2.1
+    - gridExtra	2.3
+    - ggridges	0.5.1
+    - GGally	1.4.0
+    - docopt	0.6.1
+    - RCurl		1.98 -  1.1
