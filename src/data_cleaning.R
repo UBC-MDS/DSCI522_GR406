@@ -26,6 +26,9 @@ main <- function(raw_data_path, clean_data_path){
   oldw <- getOption("warn")
   options(warn = -1)
   df <- read_csv(raw_data_path, col_types = cols())
+  
+  # Read taxi zone info
+  zone_info <- read_csv("data/taxi_zone.csv", col_types = cols()) %>% select(LocationID, Borough)
   options(warn = oldw)
   
   # Choose only credit card payments so we have tip information
@@ -52,6 +55,15 @@ main <- function(raw_data_path, clean_data_path){
                                             (pu_hour >= 18 & pu_hour <= 21  ) ~ "evening"),
           # Group by day of the week
            pu_wday_group = if_else((pu_wday == 'Saturday' | pu_wday == 'Sunday'), "weekend", "weekday"))
+  
+  # Join with taxi zone info
+  df <- df %>% 
+    left_join(zone_info, by = c("PULocationID" = "LocationID")) %>% 
+    mutate(PUBorough = Borough) %>% 
+    select(-Borough) %>% 
+    left_join(zone_info, by = c("DOLocationID" = "LocationID")) %>%
+    mutate(DOBorough = Borough) %>% 
+    select(-Borough)
   
   # Write clean df to file
   write_csv(df, path = clean_data_path)
