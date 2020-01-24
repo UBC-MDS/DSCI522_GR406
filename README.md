@@ -16,6 +16,8 @@ Original source is [New York Open Data](https://data.cityofnewyork.us/Transporta
 - [Download script]() downloads a .csv file from a specified URL and saves to disk
 - [EDA]() preliminary exploratory analysis of the data
 
+## Usage
+
 ### Dependencies
 - R version 3.6.1 and R packages:
     - MASS		7.3 - 51.4
