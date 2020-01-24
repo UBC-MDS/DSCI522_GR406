@@ -4,11 +4,11 @@
 "This script loads a clean data file from disk, runs a linear model and saves it to
 an output location. 
 
-Usage: modelling.R <inbound_file_path> <outbound_file_path> 
+Usage: modelling.R <inbound_file_path> <outbound_directory> 
 
 Options:
 <inbound_file_path>         Path where raw data can be read from locally
-<outbound_file_path>        Path where clean data will be saved locally 
+<outbound_directory>        Path where clean data will be saved locally 
 " -> doc
 
 # Load libraries
@@ -20,7 +20,7 @@ library(docopt)
 opt <- docopt(doc)
 
 # Define main function
-main <- function(inbound_file, outbound_file){
+main <- function(inbound_file, outbound_dir){
   oldw <- getOption("warn")
   options(warn = -1)
   # read in the clean data
@@ -32,14 +32,19 @@ main <- function(inbound_file, outbound_file){
   # Create summary table
   summary  = summary(interactive_mod)
   
+  # Create results out directory
+  try({
+    dir.create(outbound_dir)
+  })
+  
   # Save model to file 
   saveRDS(interactive_mod, 
-          file = paste0(outbound_file,"/interactive_model.rds"))
+          file = paste0(outbound_dir,"/interactive_model.rds"))
   
   # Save summary table
   saveRDS(summary, 
-          file = paste0(outbound_file, "/summary_table.rds"))
+          file = paste0(outbound_dir, "/summary_table.rds"))
 }
 
 # Call main function
-main(opt$inbound_file_path, opt$outbound_file_path)
+main(opt$inbound_file_path, opt$outbound_directory)
