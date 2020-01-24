@@ -37,7 +37,7 @@ main <- function(raw_data_path, clean_data_path){
           select(tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
                   RatecodeID, trip_distance, PULocationID, DOLocationID, tip_amount, total_amount) %>%
           # define tip percentage variable
-          mutate(tip_pct = (tip_amount / total_amount))
+          mutate(tip_pct = 100*(tip_amount / total_amount))
   
   # Filter out NA values in tip_pct
   # These are due to the `total amount` having a value of 0 

@@ -29,9 +29,16 @@ main <- function(inbound_file, outbound_file){
   # Fit the model
   interactive_mod <- lm(tip_pct ~ trip_distance + total_amount + PUBorough + pu_time_of_day_group*pu_wday_group, 
                         data = df)
+  # Create summary table
+  summary  = summary(interactive_mod)
+  
   # Save model to file 
   saveRDS(interactive_mod, 
-          file = paste0(outbound_file, "/intractive_model.rds"))
+          file = paste0(outbound_file,"/interactive_model.rds"))
+  
+  # Save summary table
+  saveRDS(summary, 
+          file = paste0(outbound_file, "/summary_table.rds"))
 }
 
 # Call main function
