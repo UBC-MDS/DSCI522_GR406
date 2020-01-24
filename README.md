@@ -18,6 +18,14 @@ Original source is [New York Open Data](https://data.cityofnewyork.us/Transporta
 
 ## Usage
 
+python src/load_csv.py https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv taxis.csv
+
+Rscript src/data_cleaning.R taxis.csv taxis_clean.csv
+
+Rscript src/eda.R taxis_clean.csv fig
+
+Rscript src/modelling.R taxis_clean.csv figs
+
 ### Dependencies
 - R version 3.6.1 and R packages:
     - MASS		7.3 - 51.4
