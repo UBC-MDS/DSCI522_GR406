@@ -103,7 +103,6 @@ The results of our model are outputted below: <br>
 tidy(model_quality) %>% select(term, estimate, p.value) %>% 
   kable(caption = "Table 1. Summary Table of Model Parameters.", format = 'html') %>% 
   kable_styling() %>%
-  column_spec(c(2, 5), bold = T) %>%
   row_spec(10:16, bold = T, color = "black", background = "#B0C4DE")
 ```
 
@@ -118,6 +117,7 @@ __Interactions__: Weekend evening (evening + weekend + evening*weekend) compared
 ## Magnitudes
 While many variables were estimated to have significant association with the dependent variable of `tip_percentage`, the magnitudes of most estimates are quite small. However, these magnitudes could add up to signicant income differences over the course of a week, month or year for a taxi driver. For instance, the difference between our estimate of the highest time of the week (weekday middle of the night), and the lowest expected time of the (weekend middle of the night), is:
 $$0.110 + 0.042 + 0.604 = 0.75$$percentage points. While this may not seem like a lot, on a total fare of \$$1000$ (or an approximate week of earnings), this would be an estimated difference of approximately \$$7.50$. 
+
 ## Future Direction and Implementations
 Linear regression has strict assumptions on relationship between predictors and response and on distribution of errors. Although it is reasonable to assume that tip observations are independent from each other, they are not perfectly normally distributed and are right-skewed. The fact that linear regression projects response variable on the real line is also a problem here, because tip percentage can only be non-negative values. 
 
