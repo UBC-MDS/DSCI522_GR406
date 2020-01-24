@@ -5,26 +5,41 @@
 - Mengzhe Huang
 - Yijia Qin 
 
-## Aims of the Project
-Determine whether there is a significant association between time of day, and the mean tip percentage for patrons riding taxis in New York City. 
+## Summary
+In this data analysis project We are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis.
 
-## Dataset
-Original source is [New York Open Data](https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs), smaller sample of the data used in the analysis on a public [Github repo](https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv).
+The original source of our data is [New York Open Data](https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs), which provides a comprehensive dataset of all taxi rides in New York City. We have used a $1M$ observation sample of rides in February, 2017 from this dataset, which can be seen on this public [Github repo](https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv)
 
-## Included in this repo
-- [Proposal](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/PROPOSAL.md), project outline and aims
-- [Download script]() downloads a .csv file from a specified URL and saves to disk
-- [EDA]() preliminary exploratory analysis of the data
+After an [EDA](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/src/eda.ipynb) of the data, we fit an interactive linear model using the tip percentage as our independent variable, and found significant associations between time of day and mean tip percentage while controlling for a handful of potential confounders. 
 
-## Usage
+## Report
+The final report can be read [here](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/doc/report.md).
 
-python src/load_csv.py https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv taxis.csv
+## Usage and flowchart
+To run the analysis from beginning to end on your local machine, clone this repo, make sure all dependencies are installed and run the following commands from the root directory of the project. <br>
+WARNING: Due to the size of the dataset and the visualizations made, the full process may take around 10 minutes. Please be patient :) 
 
-Rscript src/data_cleaning.R taxis.csv taxis_clean.csv
+```
+# download data from web
+python src/load_csv.py https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv data/taxis.csv
 
-Rscript src/eda.R taxis_clean.csv fig
+# clean and process the data
+Rscript src/data_cleaning.R data/taxis.csv data/taxis_clean.csv
 
-Rscript src/modelling.R taxis_clean.csv figs
+# create EDA visualizations
+Rscript src/eda.R data/taxis_clean.csv fig/
+
+# statistical modelling
+Rscript src/modelling.R data/taxis_clean.csv results/
+
+# generate report
+Rscript -e "rmarkdown::render('doc/report.Rmd')"
+```
+
+A flowchart for the process can be seen below:
+
+![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/fig/GR406_project_flow.png)
+
 
 ### Dependencies
 - R version 3.6.1 and R packages:
