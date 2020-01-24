@@ -28,8 +28,8 @@ model_quality <- readRDS("../results/summary_table.rds")
 ```
 
 # Introduction and Aims 
-In this data analysis project, we are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis. This is an important question for taxi drivers, who often have autonomy on there working schedules and therefore may find it interesting which times of the day and week are associated with the highest average tip percentages, and whether these differences are significant. <br>
-Additionally, this analysis is interesting on the study of human behaviour, further understanding tipping behaviour. Our aim for the project will be to perform an `Inferential` analysis, and to estimate association between our independet variables of interest (time of the day, and day of the week), and our outcome variable (tip percentage). Our aim is not to make a causal or mechanistic claim between any variables, however this would be an interesting area for future work. follow up project. 
+In this data analysis project, we are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis. This is an important question for taxi drivers, who often have autonomy on there working schedules and therefore may find it interesting and relevant which times of the day and week are associated with the highest average tip percentages, and whether these differences are significant. <br>
+Our aim for the project will be to perform an `Inferential` analysis, and to estimate association between our independent variables of interest (time of the day, and day of the week), and our outcome variable (tip percentage). Our aim is not to make a causal or mechanistic claim between any variables, however this would be an interesting area for future work. 
 
 # Data
 
@@ -37,14 +37,14 @@ Additionally, this analysis is interesting on the study of human behaviour, furt
 We are using a comprehensive dataset of all taxi rides from yellow and green cabs in New York City for the month of February, 2017.  The dataset was downloaded from [data.world](https://data.world/new-york-city/yellow-tripdata-february-2017/workspace/file?filename=yellow_tripdata_2017-02.csv), and provided to them by the City of [New York Open Data Portal](https://opendata.cityofnewyork.us/), which provides all New York City public data, based on the [New York City open data law](https://opendata.cityofnewyork.us/open-data-law/). <br>
 The data provides many features about each observation, including:<br>
 
----> Pickup and dropoff time stamps<br>
----> Pickup and dropoff location Id's<br>
----> Distance and duration of each trip<br>
----> Fare<br>
----> Tip<br>
----> Payment method<br>
+* Pickup and dropoff time stamps
+* Pickup and dropoff location Id's
+* Distance and duration of each trip
+* Fare
+* Tip
+* Payment method
 
-The dataset could not be downloaded directly with a url, and thus had to be reuploaded to a github repo. The size of the file greatly exceeded the 100 MB size limit of github uploads, so the data was randomly sampled to include 1M observations from the original 9M observations. The location of the file we are using in the analysis can be found and downloaded [here](https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv).
+The dataset could not be downloaded directly with a url, and thus had to be reuploaded to a github repo. The size of the file greatly exceeded the 100 MB size limit of github uploads, so the data was randomly sampled to include 1 million observations from the original 9 million observations. The location of the file we are using in the analysis can be found and downloaded [here](https://raw githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv).
 
 ## Wrangling and Exploratory Data Analysis
 For our problem, we have created an additional variable called of __tip percentage__, which is calculated as:
@@ -64,10 +64,10 @@ knitr::include_graphics("../fig/day_of_week.png")
 
 From the visual inspection, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare make comparisons between different "time of day" groups". We broke down a 24 hour day into the following four segments:<br>
 
----> Morning: rides between 5:00am and 11:59am <br>
----> Afternoon: rides between 12:00pm and 5:59pm <br>
----> Evening: rides between 6:00pm and 9:59pm <br>
----> Middle of the night: rides between 10:00pm and 4:59am <br>
+* Morning: rides between 5:00am and 11:59am <br>
+* Afternoon: rides between 12:00pm and 5:59pm <br>
+* Evening: rides between 6:00pm and 9:59pm <br>
+* Middle of the night: rides between 10:00pm and 4:59am <br>
 
 These groups contain an approximately equal proportion of the rides, and could also be considered as shifts that a taxi cab driver might work. Additionally, we have also created an indicator variable for weekend vs. weekday rides, as it appeared there might be a relationship there. A final heat map of mean tip percentages split on our time of day feature, and weekend/weekday feature can be seen below: <br>
 
@@ -75,14 +75,14 @@ These groups contain an approximately equal proportion of the rides, and could a
 knitr::include_graphics("../fig/heat_map.png")
 ```
 
-From the heatmap we can see that tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information means we should likely fit an interactive term between time of day and day of the week. 
+From the heatmap we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that an interactive term between time of day and day of the week would be appropriate in our statistical modelling. 
 
 
 # Model
 The question we are asking is whether there is an association between time of day, and the mean tip percentage for taxi rides in New York City. Before we set up the model, we need to carefully consider our problem and our relevant variables:<br>
 
 __Outcome__: This is our `tip percentage` variable <br>
-__Key predictor__: This is our variable of interest, the `time of day` group variable which we have outlined above. We want to know the Outcome variable changes with this key predictor. <br>
+__Key predictor__: This is our variable of interest, the `time of day` group variable as well as `day of week`. We want to know how the Outcome variable changes with this key predictor. <br>
 __Confounders__: Potential variables related to both the `Key Predictor` variable, and the `Outcome` variable. We will control for the following potential confounding variables: `ride location` (borough), `trip distance`, and `number of passengers`. <br>
 
 __Assumptions__:  
