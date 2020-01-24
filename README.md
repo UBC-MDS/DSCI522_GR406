@@ -6,9 +6,9 @@
 - Yijia Qin 
 
 ## Summary
-In this data analysis project We are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis.
+In this data analysis project we aim to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis.
 
-The original source of our data is [New York Open Data](https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs), which provides a comprehensive dataset of all taxi rides in New York City. We have used a $1M$ observation sample of rides in February, 2017 from this dataset, which can be seen on this public [Github repo](https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv)
+The original source of our data is [New York Open Data](https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs), which provides a comprehensive dataset of all taxi rides in New York City. We have used a sample of 1 million rides from February, 2017 from this dataset, which can be seen on this public [Github repo](https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv)
 
 After an [EDA](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/src/eda.ipynb) of the data, we fit an interactive linear model using the tip percentage as our independent variable, and found significant associations between time of day and mean tip percentage while controlling for a handful of potential confounders. 
 
