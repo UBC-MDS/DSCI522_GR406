@@ -38,7 +38,7 @@ We are using a comprehensive dataset of all taxi rides from yellow and green cab
 The data provides many features about each observation, including:<br>
 
 * Pickup and dropoff time stamps
-* Pickup and dropoff location Id's
+* Pickup and dropoff location ID's
 * Distance and duration of each trip
 * Fare
 * Tip

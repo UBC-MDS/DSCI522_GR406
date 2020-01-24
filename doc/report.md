@@ -35,7 +35,7 @@ law](https://opendata.cityofnewyork.us/open-data-law/). <br> The data
 provides many features about each observation, including:<br>
 
   - Pickup and dropoff time stamps
-  - Pickup and dropoff location Id’s
+  - Pickup and dropoff location ID’s
   - Distance and duration of each trip
   - Fare
   - Tip
