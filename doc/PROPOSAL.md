@@ -20,7 +20,8 @@ We have identified an `inferential` research question. We will attempt to determ
 #### 2.(b) Purpose/Use case of research questions
 Taxi cab drivers often have significant autonomy in determining their working hours. Therefore knowing which times of the day and week are expected to have the highest tip percentage would be valuable information in optimizing their working schedules.
 
-##### Clarification of purpose and response
+##### Clarification of purpose and response to feedback
+We chose to use percantage value of a tip instead of absolute value because tips given are very highly correlated with overall fare, but making trips with high fare also cost the driver more time and resources. Looking at average absolute tip would heavily bias this study towards longer trips, which are not necessarily more efficient. We are making the assumption that the fare charged is always absolutely fair with respect to driver resource input, so trips with lower or higher fare, distance, drive time etc. are not inherently more optimal than others. Therefore under this assumption driver income variance would depend solely on the percentage of fare that riders tip.
 
 ### 3. Analysis Plan
 
