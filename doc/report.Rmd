@@ -5,7 +5,7 @@ output:
   github_document:
     toc: true
     pandoc_args: --webtex
-#bibliography: ../doc/refs.bib
+bibliography: ../doc/taxi_refs.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -90,7 +90,7 @@ Where $z$ are the potential confounding variables we are controlling for, $\gamm
 
 The results of our model are outputted below: <br>
 ```{r model-quality, echo=FALSE}
-model <- readRDS("../fig/intractive_model.rds")
+model <- readRDS("../fig/interactive_model.rds")
 tidy(model) %>% select(term, estimate, p.value) %>% kable()
 ```
 
@@ -105,3 +105,8 @@ tidy(model) %>% select(term, estimate, p.value) %>% kable()
 ## Magnitudes
 While many variables were estimated to have significant association with the dependent variable of `tip_percentage`, the magnitudes of most estimates are quite small. However, these magnitudes could add up to signicant income differences over the course of a week, month or year for a taxi driver. For instance, the difference between our estimate of the highest time of the week (weekday middle of the night), and the lowest expected time of the (weekend middle of the night), is:
 $$0.110 + 0.042 + 0.604 = 0.75$$percentage points. While this may not seem like a lot, on a total fare of \$$1000$ (or an approximate week of earnings), this would be an estimated difference of approximately \$$7.50$. 
+
+## Credits
+This project involves the work of [@R; @tidyverse; @docopt; @lubridate; @MASS; @broom; @ggplot2; @gridExtra; @ggridges; @GGally; @ipython; @numpy; @pandas; @validators; @nyctaxi; @dsart; @lmr;]
+
+# References

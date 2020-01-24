@@ -20,6 +20,8 @@ We have identified an `inferential` research question. We will attempt to determ
 #### 2.(b) Purpose/Use case of research questions
 Taxi cab drivers often have significant autonomy in determining their working hours. Therefore knowing which times of the day and week are expected to have the highest tip percentage would be valuable information in optimizing their working schedules.
 
+##### Clarification of purpose and response
+
 ### 3. Analysis Plan
 
 To approach our research question, we will segment all rides into different times of the day: middle of the night, morning, afternoon, and evening. We will also divide our data into weekday rides, and weekend rides. We will create an additional variable, which will be call `tip percentage`, calculated as the rider's `tip` divided by the total `fare` of the ride.<br>
