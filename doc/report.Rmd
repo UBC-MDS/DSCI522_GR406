@@ -1,6 +1,8 @@
 ---
 title: "Inferential Analysis on Time of Day and Tip Percentage for Taxi Rides in New York City"
-author: Alexander Hinton, James Huang, Jasmine Qin
+author: Alexander Hinton, James Huang, Jasmine Qin </br>
+date: "2020/01/22 (updated: `r Sys.Date()`)"
+always_allow_html: true
 output: 
   github_document:
     toc: true
@@ -13,12 +15,17 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message=FALSE)
 # general
 library(tidyverse)
 library(knitr)
+library(kableExtra)
 # plotting
 library(broom)
 theme_set(theme_minimal())
 set.seed(2020)
 ```
 
+```{r load model results}
+model <- readRDS("../results/interactive_model.rds")
+model_quality <- readRDS("../results/summary_table.rds")
+```
 
 # Introduction and Aims 
 In this data analysis project, we are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis. This is an important question for taxi drivers, who often have autonomy on there working schedules and therefore may find it interesting which times of the day and week are associated with the highest average tip percentages, and whether these differences are significant. <br>
@@ -41,19 +48,17 @@ The dataset could not be downloaded directly with a url, and thus had to be reup
 
 ## Wrangling and Exploratory Data Analysis
 For our problem, we have created an additional variable called of __tip percentage__, which is calculated as:
-$$\frac{\text{tip}}{\text{total fare}}*100$$. 
-This transformation was carried out for the main reason that most individuals tip not in absolute terms but in percentages, and therefore a gross value of tip is extremely correlated with the ride fare. When using a credit or debit card to make a transaction, the tip option is usually specified as a percentage, making it most logical that we use tip percentage as our dependent variable. <br>
-We have mapped location ID's from the dataset into their unique boroughs in New York City. The link to this dataset can be found here (Where is link?).<br> By reducing the location ID's to 5 from over 200 we are improving the parameter estimates in the modelling, as well as making them more interpretable. <br>
-We have only included rides where payment was made with a credit card, as these are the only rides where the tip amounts were recorded.
+$$\frac{\text{tip}}{\text{total fare}}*100$$
+This transformation was carried out for the main reason that most individuals tip not in absolute terms but in percentages, and therefore a gross value of tip is extremely correlated with the ride fare. When using a credit or debit card to make a transaction, the tip option is usually specified as a percentage, making it most logical that we use tip percentage as our dependent variable. We have mapped location ID's from the dataset into their unique boroughs in New York City. The link to this dataset can be found [here](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page). By reducing the location ID's to 5 from over 200 we are improving the parameter estimates in the modelling, as well as making them more interpretable. We have only included rides where payment was made with a credit card, as these are the only rides where the tip amounts were recorded.
 
 To further understand the data, we first visualized if there was a relationship between hour of the day, and the mean tip percentage.  
 
-```{r mean-percentages by hour, echo=FALSE, fig.cap="Figure 1. Mean tip percentages by hour.", out.width = '80%'}
+```{r mean-percentages by hour, echo=FALSE, fig.cap="Figure 1. Mean tip percentages by hour.", out.width = '70%'}
 knitr::include_graphics("../fig/time_of_day.png")
 ```
 
 <br>As well as how mean tip percentage vary over a week.<br>
-```{r mean-percentages by day, echo=FALSE, fig.cap="Figure 2. Mean tip percentages by day.", out.width = '80%'}
+```{r mean-percentages by day, echo=FALSE, fig.cap="Figure 2. Mean tip percentages by day.", out.width = '70%'}
 knitr::include_graphics("../fig/day_of_week.png")
 ```
 
@@ -66,7 +71,7 @@ From the visual inspection, and based on the analysis we wanted to carry out, we
 
 These groups contain an approximately equal proportion of the rides, and could also be considered as shifts that a taxi cab driver might work. Additionally, we have also created an indicator variable for weekend vs. weekday rides, as it appeared there might be a relationship there. A final heat map of mean tip percentages split on our time of day feature, and weekend/weekday feature can be seen below: <br>
 
-```{r heatmap, echo=FALSE, fig.cap="Figure 3. Heatmap", out.width = '80%'}
+```{r heatmap, echo=FALSE, fig.cap="Figure 3. Heatmap", out.width = '70%'}
 knitr::include_graphics("../fig/heat_map.png")
 ```
 
@@ -74,13 +79,18 @@ From the heatmap we can see that tip percentages are highest in the afternoon/ev
 
 
 # Model
-{Aside: reference for this section is Art of Data Science book}<br>
 The question we are asking is whether there is an association between time of day, and the mean tip percentage for taxi rides in New York City. Before we set up the model, we need to carefully consider our problem and our relevant variables:<br>
+
 __Outcome__: This is our `tip percentage` variable <br>
 __Key predictor__: This is our variable of interest, the `time of day` group variable which we have outlined above. We want to know the Outcome variable changes with this key predictor. <br>
 __Confounders__: Potential variables related to both the `Key Predictor` variable, and the `Outcome` variable. We will control for the following potential confounding variables: `ride location` (borough), `trip distance`, and `number of passengers`. <br>
 
-Given this breakdown, wee estimated the following linear model: <br>
+__Assumptions__:  
+- Linearity: Relationship between predictor and mean of outcome should be linear  
+- Independence: Taxi ride observations should be inpdependent of each other  
+- Normality: Given predictor, tip percentage needs to be normally distributed. Errors should also be normally distribed with zero mean and constant variance
+
+Given this breakdown, we estimated the following linear model: <br>
 <br>
 $$y = \alpha + \gamma*z + \beta_1*\text{time of day} + \beta_2*\text{weekday} + \beta_3*\text{time of day}*\text{weekday} + \epsilon$$
 <br>
@@ -90,8 +100,10 @@ Where $z$ are the potential confounding variables we are controlling for, $\gamm
 
 The results of our model are outputted below: <br>
 ```{r model-quality, echo=FALSE}
-model <- readRDS("../fig/interactive_model.rds")
-tidy(model) %>% select(term, estimate, p.value) %>% kable()
+tidy(model_quality) %>% select(term, estimate, p.value) %>% 
+  kable(caption = "Table 1. Summary Table of Model Parameters.", format = 'html') %>% 
+  kable_styling() %>%
+  row_spec(10:16, bold = T, color = "black", background = "#B0C4DE")
 ```
 
 # Discussion
@@ -99,12 +111,18 @@ tidy(model) %>% select(term, estimate, p.value) %>% kable()
  The first 9 rows of our results table are the intercept and the 8 potential confounding variables we accounted for, so we are not interested in these estimates. Many of the variables of interest to us are estimated to have statistically significant association with the outcome variable of `tip percentage`. To understand the results table, it is important to note the reference level group is `weekday` and `afternoon`. <br> Breaking down the association analysis by day type: <br>
 
  __Weekdays__: Evening and morning rides are significantly _lower_ than weekday afternoon rides, while weekday middle of the night rides are significantly _higher_ than weekday afternoon rides. These are all significant to the 1% significance level. <br>
-  __Weekends__: Weekend rides are signficantly lower than weekday rides, at the 5% significance level.<br>
- __Interactions__:  To be continued. 
+__Weekends__: Weekend rides are signficantly lower than weekday rides, at the 5% significance level.<br>
+__Interactions__: Weekend evening (evening + weekend + evening*weekend) compared to weekday evening (evening) is lower, since estimates of `weekend` and `evening weekend` are negative. This aligns with what we observed from the heat map.
  
 ## Magnitudes
 While many variables were estimated to have significant association with the dependent variable of `tip_percentage`, the magnitudes of most estimates are quite small. However, these magnitudes could add up to signicant income differences over the course of a week, month or year for a taxi driver. For instance, the difference between our estimate of the highest time of the week (weekday middle of the night), and the lowest expected time of the (weekend middle of the night), is:
 $$0.110 + 0.042 + 0.604 = 0.75$$percentage points. While this may not seem like a lot, on a total fare of \$$1000$ (or an approximate week of earnings), this would be an estimated difference of approximately \$$7.50$. 
+
+## Future Direction and Implementations
+Linear regression has strict assumptions on relationship between predictors and response and on distribution of errors. Although it is reasonable to assume that tip observations are independent from each other, they are not perfectly normally distributed and are right-skewed. The fact that linear regression projects response variable on the real line is also a problem here, because tip percentage can only be non-negative values. 
+
+The non-normal errors is not a big issue here because we are using a large dataset. When Central Limit Theorem holds, the sampling distribution is approximately Normal and our p-values are still valid. We could use a generalized linear model to fit the data, but this means that other distributional assumptions will be made to tip percentage and having a link function to connect predictors and response will be generally less interpretable.
+
 
 ## Credits
 This project involves the work of [@R; @tidyverse; @docopt; @lubridate; @MASS; @broom; @ggplot2; @gridExtra; @ggridges; @GGally; @ipython; @numpy; @pandas; @validators; @nyctaxi; @dsart; @lmr;]
