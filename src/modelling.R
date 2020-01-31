@@ -47,7 +47,7 @@ main <- function(inbound_file, outbound_dir){
   
   # Save summary table
   saveRDS(interactive_model_summary, 
-          file = "/summary_table.rds")
+          file = paste0(outbound_dir,"/summary_table.rds"))
   
 }
 

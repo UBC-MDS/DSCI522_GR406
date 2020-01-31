@@ -75,10 +75,10 @@ To further understand the data, we first visualized if there was a
 relationship between hour of the day, and the mean tip
 percentage.
 
-<img src="../fig/time_of_day.png" title="Figure 1. Mean tip percentages by hour." alt="Figure 1. Mean tip percentages by hour." width="70%" />
+<img src="../results/fig/time_of_day.png" title="Figure 1. Mean tip percentages by hour." alt="Figure 1. Mean tip percentages by hour." width="70%" />
 
 <br>As well as how mean tip percentage vary over a week.<br>
-<img src="../fig/day_of_week.png" title="Figure 2. Mean tip percentages by day." alt="Figure 2. Mean tip percentages by day." width="70%" />
+<img src="../results/fig/day_of_week.png" title="Figure 2. Mean tip percentages by day." alt="Figure 2. Mean tip percentages by day." width="70%" />
 
 From the visual inspection, and based on the analysis we wanted to carry
 out, we decided to transform our time feature. Currently all rides are
@@ -99,7 +99,7 @@ A final heat map of mean tip percentages split on our time of day
 feature, and weekend/weekday feature can be seen below:
 <br>
 
-<img src="../fig/heat_map.png" title="Figure 3. Heatmap" alt="Figure 3. Heatmap" width="70%" />
+<img src="../results/fig/heat_map.png" title="Figure 3. Heatmap" alt="Figure 3. Heatmap" width="70%" />
 
 From the heatmap we can see that mean tip percentages are highest in the
 afternoon/evening, and that the relationship between time of day and tip
@@ -179,7 +179,7 @@ Tip Percentage
 
 <th style="text-align:left;">
 
-parameter
+term
 
 </th>
 
