@@ -38,7 +38,7 @@ Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
 A flowchart for the process can be seen below:
 
-![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/results/fig/GR406_flow_chart.png)
+![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/tree/master/results/fig/GR406_flow_chart.png)
 
 
 ### Dependencies
