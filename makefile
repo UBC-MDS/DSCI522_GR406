@@ -7,32 +7,32 @@ data/taxis_clean.csv : data/taxis.csv src/data_cleaning.R
 	Rscript src/data_cleaning.R data/taxis.csv data/taxis_clean.csv
 
 # Create EDA visualizations
-fig : data/taxis_clean.csv src/eda/eda.R
-	Rscript src/eda/eda.R data/taxis_clean.csv fig/
+results/fig/day_of_week_group.png results/fig/day_of_week.png results/fig/time_of_day.png results/fig/heat_map.png : data/taxis_clean.csv src/eda/eda.R
+	Rscript src/eda/eda.R data/taxis_clean.csv results/fig/
 
 # Statistical modelling
-results : data/taxis_clean.csv src/modelling.R
+results/summary_table.rds results/interactive_model.rds : data/taxis_clean.csv src/modelling.R
 	Rscript src/modelling.R data/taxis_clean.csv results/
 
 # Generate  markdown report
-doc/report.md : results/ fig/ doc/report.Rmd
+doc/report.md : results/summary_table.rds results/interactive_model.rds results/fig/day_of_week_group.png results/fig/day_of_week.png results/fig/time_of_day.png results/fig/heat_map.png doc/report.Rmd
 	Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
 clean :
 	rm -f data/taxis.csv
 	rm -f data/taxis_clean.csv
-	rm -f fig/day_of_week_group.png
-	rm -f fig/day_of_week.png
-	rm -f fig/time_of_day.png
-	rm -f fig/heat_map.png
-	rm -f fig/GR406_project_flow.png
+	rm -f results/fig/day_of_week_group.png
+	rm -f results/fig/day_of_week.png
+	rm -f results/fig/time_of_day.png
+	rm -f results/fig/heat_map.png
 	rm -f results/summary_table.rds
 	rm -f results/interactive_model.rds
 	rm -f doc/report.md
+	rm -f doc/report.html
 
 all :
 	make data/taxis.csv
 	make data/taxis_clean.csv
-	make fig
-	make results
+	make results/fig
+	make results/summary_table.rds results/interactive_model.rds
 	make doc/report.md

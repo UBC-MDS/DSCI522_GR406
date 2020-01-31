@@ -56,12 +56,12 @@ This transformation was carried out for the main reason that most individuals ti
 To further understand the data, we first visualized if there was a relationship between hour of the day, and the mean tip percentage.  
 
 ```{r mean-percentages by hour, echo=FALSE, fig.cap="Figure 1. Mean tip percentages by hour.", out.width = '70%'}
-knitr::include_graphics("../fig/time_of_day.png")
+knitr::include_graphics("../results/fig/time_of_day.png")
 ```
 
 <br>As well as how mean tip percentage vary over a week.<br>
 ```{r mean-percentages by day, echo=FALSE, fig.cap="Figure 2. Mean tip percentages by day.", out.width = '70%'}
-knitr::include_graphics("../fig/day_of_week.png")
+knitr::include_graphics("../results/fig/day_of_week.png")
 ```
 
 From the visual inspection, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare different "time of day" groups". We broke down a 24 hour day into the following four segments:<br>
@@ -74,7 +74,7 @@ From the visual inspection, and based on the analysis we wanted to carry out, we
 These groups contain an approximately equal proportion of the rides, and could also be considered as shifts that a taxi cab driver might work. Additionally, we have also created an indicator variable for weekend vs. weekday rides, as it appeared there might be a relationship there. A final heat map of mean tip percentages split on our time of day feature, and weekend/weekday feature can be seen below: <br>
 
 ```{r heatmap, echo=FALSE, fig.cap="Figure 3. Heatmap", out.width = '70%'}
-knitr::include_graphics("../fig/heat_map.png")
+knitr::include_graphics("../results/fig/heat_map.png")
 ```
 
 From the heatmap we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that their appears to be an interaction effect between time of day and day of the week, which is an important consideration in our statistical modelling.
