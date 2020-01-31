@@ -30,7 +30,11 @@ main <- function(inbound_file, outbound_dir){
   interactive_mod <- lm(tip_pct ~ trip_distance + total_amount + PUBorough + pu_time_of_day_group*pu_wday_group, 
                         data = df)
   # Create summary table
-  summary  = summary(interactive_mod)
+  interactive_model_summary <- broom::tidy(interactive_mod) %>%
+                                  mutate(term = str_replace(term, "pu_time_of_day_group", ""),
+                                   term = str_replace(term, "pu_wday_group", ""),
+                                   term = str_replace(term, ":", "*")) %>% tail(7) %>%
+                                    mutate_if(is.numeric, funs(as.character(signif(., 3)))) 
   
   # Create results out directory
   try({
@@ -42,8 +46,9 @@ main <- function(inbound_file, outbound_dir){
           file = paste0(outbound_dir,"/interactive_model.rds"))
   
   # Save summary table
-  saveRDS(summary, 
-          file = paste0(outbound_dir, "/summary_table.rds"))
+  saveRDS(interactive_model_summary, 
+          file = "/summary_table.rds")
+  
 }
 
 # Call main function

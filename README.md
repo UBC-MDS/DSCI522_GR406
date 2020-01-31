@@ -27,7 +27,7 @@ python src/load_csv.py https://raw.githubusercontent.com/jamesh4/yellow_tripdata
 Rscript src/data_cleaning.R data/taxis.csv data/taxis_clean.csv
 
 # create EDA visualizations
-Rscript src/eda.R data/taxis_clean.csv fig/
+Rscript src/eda/eda.R data/taxis_clean.csv results/fig/
 
 # statistical modelling
 Rscript src/modelling.R data/taxis_clean.csv results/
@@ -38,7 +38,7 @@ Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
 A flowchart for the process can be seen below:
 
-![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/fig/GR406_project_flow.png)
+![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/tree/master/results/fig/GR406_flow_chart.png)
 
 
 ### Dependencies

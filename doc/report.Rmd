@@ -1,12 +1,12 @@
 ---
-title: "Inferential Analysis on Time of Day and Tip Percentage for Taxi Rides in New York City"
+title: "Inferential Analysis between Time of Day and Day of Week on Tip Percentage for Taxi Rides in New York City"
 author: Alexander Hinton, James Huang, Jasmine Qin </br>
 date: "2020/01/22 (updated: `r Sys.Date()`)"
 always_allow_html: true
 output: 
   github_document:
-    toc: true
     pandoc_args: --webtex
+    toc: true
 bibliography: ../doc/taxi_refs.bib
 ---
 
@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message=FALSE)
 # general
 library(tidyverse)
 library(knitr)
+library(stargazer)
 library(kableExtra)
 # plotting
 library(broom)
@@ -24,8 +25,9 @@ set.seed(2020)
 
 ```{r load model results}
 model <- readRDS("../results/interactive_model.rds")
-model_quality <- readRDS("../results/summary_table.rds")
+model_summary <- readRDS("../results/summary_table.rds")
 ```
+
 
 # Introduction and Aims 
 In this data analysis project, we are trying to answer the question of whether the time of day, and day of the week are associated with tip generosity of riders in New York City taxis. This is an important question for taxi drivers, who often have autonomy on there working schedules and therefore may find it interesting and relevant which times of the day and week are associated with the highest average tip percentages, and whether these differences are significant. <br>
@@ -62,7 +64,7 @@ knitr::include_graphics("../fig/time_of_day.png")
 knitr::include_graphics("../fig/day_of_week.png")
 ```
 
-From the visual inspection, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare make comparisons between different "time of day" groups". We broke down a 24 hour day into the following four segments:<br>
+From the visual inspection, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare different "time of day" groups". We broke down a 24 hour day into the following four segments:<br>
 
 * Morning: rides between 5:00am and 11:59am <br>
 * Afternoon: rides between 12:00pm and 5:59pm <br>
@@ -75,17 +77,19 @@ These groups contain an approximately equal proportion of the rides, and could a
 knitr::include_graphics("../fig/heat_map.png")
 ```
 
-From the heatmap we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that an interactive term between time of day and day of the week would be appropriate in our statistical modelling. 
+From the heatmap we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that their appears to be an interaction effect between time of day and day of the week, which is an important consideration in our statistical modelling.
 
 
 # Model
-The question we are asking is whether there is an association between time of day, and the mean tip percentage for taxi rides in New York City. Before we set up the model, we need to carefully consider our problem and our relevant variables:<br>
+The question we are asking is whether there is an association between time of day and day of the week on the mean tip percentage for taxi rides in New York City. Before we set up our, we need to carefully consider our problem and our relevant variables:<br>
 
 __Outcome__: This is our `tip percentage` variable <br>
-__Key predictor__: This is our variable of interest, the `time of day` group variable as well as `day of week`. We want to know how the Outcome variable changes with this key predictor. <br>
-__Confounders__: Potential variables related to both the `Key Predictor` variable, and the `Outcome` variable. We will control for the following potential confounding variables: `ride location` (borough), `trip distance`, and `number of passengers`. <br>
+__Key predictor__: These are the variables of interest, the `time of day` group variable as well as `day of week`. We want to know how the `Outcome` variable changes with this `Key Predictor` variable. <br>
+__Confounders__: Potential variables related to both the `Key Predictor` variable, and the `Outcome` variable. Not including these variables in the analysis could affect the magnitude, direction and statistical significance of the assosications we uncover between our `Key Predictor` and `Outcome` variable. We will control for the following potential confounding variables: `ride location` (borough), `trip distance`, and `number of passengers`. <br>
 
-__Assumptions__:  
+Given all of our variables, we thought the best approach would be to estimate a linear regression model, with `tip percentage` as the dependent variable, and the `Key Predictor` and `Confounders` as the independent variables. This model will allow for easy interpretation fo the regression coefficients and their statistical significance, as well as allow for flexibility in modelling interaction effects between independent variables.  
+
+__Assumptions of Linear Regression Model__:  
 - Linearity: Relationship between predictor and mean of outcome should be linear  
 - Independence: Taxi ride observations should be inpdependent of each other  
 - Normality: Given predictor, tip percentage needs to be normally distributed. Errors should also be normally distribed with zero mean and constant variance
@@ -99,16 +103,18 @@ Where $z$ are the potential confounding variables we are controlling for, $\gamm
 # Results
 
 The results of our model are outputted below: <br>
-```{r model-quality, echo=FALSE}
-tidy(model_quality) %>% select(term, estimate, p.value) %>% 
-  kable(caption = "Table 1. Summary Table of Model Parameters.", format = 'html') %>% 
-  kable_styling() %>%
-  row_spec(10:16, bold = T, color = "black", background = "#B0C4DE")
+```{r}
+model_summary %>% 
+  kable(caption = "Table 1. Summary Table of Model Parameters, Dependent Variable = Mean Tip Percentage", 
+        format = 'html') %>% 
+  kable_styling()  
+
 ```
+Note: all estimates of the potential counfounding variables are not displayed in the table for readability. 
 
 # Discussion
 ## Statistical significance
- The first 9 rows of our results table are the intercept and the 8 potential confounding variables we accounted for, so we are not interested in these estimates. Many of the variables of interest to us are estimated to have statistically significant association with the outcome variable of `tip percentage`. To understand the results table, it is important to note the reference level group is `weekday` and `afternoon`. <br> Breaking down the association analysis by day type: <br>
+Almost all of the variables of interest to us are estimated to have statistically significant association with the outcome variable of `tip percentage`. To understand the results table, it is important to note the reference level group is `weekday` and `afternoon`. <br> Breaking down the association analysis by day type: <br>
 
  __Weekdays__: Evening and morning rides are significantly _lower_ than weekday afternoon rides, while weekday middle of the night rides are significantly _higher_ than weekday afternoon rides. These are all significant to the 1% significance level. <br>
 __Weekends__: Weekend rides are signficantly lower than weekday rides, at the 5% significance level.<br>
@@ -118,7 +124,7 @@ __Interactions__: Weekend evening (evening + weekend + evening*weekend) compared
 While many variables were estimated to have significant association with the dependent variable of `tip_percentage`, the magnitudes of most estimates are quite small. However, these magnitudes could add up to signicant income differences over the course of a week, month or year for a taxi driver. For instance, the difference between our estimate of the highest time of the week (weekday middle of the night), and the lowest expected time of the (weekend middle of the night), is:
 $$0.110 + 0.042 + 0.604 = 0.75$$percentage points. While this may not seem like a lot, on a total fare of \$$1000$ (or an approximate week of earnings), this would be an estimated difference of approximately \$$7.50$. 
 
-## Future Direction and Implementations
+## Limitations and Future Directions
 Linear regression has strict assumptions on relationship between predictors and response and on distribution of errors. Although it is reasonable to assume that tip observations are independent from each other, they are not perfectly normally distributed and are right-skewed. The fact that linear regression projects response variable on the real line is also a problem here, because tip percentage can only be non-negative values. 
 
 The non-normal errors is not a big issue here because we are using a large dataset. When Central Limit Theorem holds, the sampling distribution is approximately Normal and our p-values are still valid. We could use a generalized linear model to fit the data, but this means that other distributional assumptions will be made to tip percentage and having a link function to connect predictors and response will be generally less interpretable.

@@ -1,8 +1,8 @@
-Inferential Analysis on Time of Day and Tip Percentage for Taxi Rides in
-New York City
+Inferential Analysis between Time of Day and Day of Week on Tip
+Percentage for Taxi Rides in New York City
 ================
 Alexander Hinton, James Huang, Jasmine Qin </br>
-2020/01/22 (updated: 2020-01-24)
+2020/01/22 (updated: 2020-01-31)
 
 # Introduction and Aims
 
@@ -83,9 +83,8 @@ percentage.
 From the visual inspection, and based on the analysis we wanted to carry
 out, we decided to transform our time feature. Currently all rides are
 recorded with a timestamp, however for our inferential analysis we
-wanted to compare make comparisons between different “time of day”
-groups". We broke down a 24 hour day into the following four
-segments:<br>
+wanted to compare different “time of day” groups". We broke down a 24
+hour day into the following four segments:<br>
 
   - Morning: rides between 5:00am and 11:59am <br>
   - Afternoon: rides between 12:00pm and 5:59pm <br>
@@ -105,26 +104,38 @@ feature, and weekend/weekday feature can be seen below:
 From the heatmap we can see that mean tip percentages are highest in the
 afternoon/evening, and that the relationship between time of day and tip
 percentage is different between weekends and weekdays. This information
-provided intuition that an interactive term between time of day and day
-of the week would be appropriate in our statistical modelling.
+provided intuition that their appears to be an interaction effect
+between time of day and day of the week, which is an important
+consideration in our statistical modelling.
 
 # Model
 
 The question we are asking is whether there is an association between
-time of day, and the mean tip percentage for taxi rides in New York
-City. Before we set up the model, we need to carefully consider our
-problem and our relevant variables:<br>
+time of day and day of the week on the mean tip percentage for taxi
+rides in New York City. Before we set up our, we need to carefully
+consider our problem and our relevant variables:<br>
 
 **Outcome**: This is our `tip percentage` variable <br> **Key
-predictor**: This is our variable of interest, the `time of day` group
-variable as well as `day of week`. We want to know how the Outcome
-variable changes with this key predictor. <br> **Confounders**:
-Potential variables related to both the `Key Predictor` variable, and
-the `Outcome` variable. We will control for the following potential
+predictor**: These are the variables of interest, the `time of day`
+group variable as well as `day of week`. We want to know how the
+`Outcome` variable changes with this `Key Predictor` variable. <br>
+**Confounders**: Potential variables related to both the `Key Predictor`
+variable, and the `Outcome` variable. Not including these variables in
+the analysis could affect the magnitude, direction and statistical
+significance of the assosications we uncover between our `Key Predictor`
+and `Outcome` variable. We will control for the following potential
 confounding variables: `ride location` (borough), `trip distance`, and
 `number of passengers`. <br>
 
-**Assumptions**:  
+Given all of our variables, we thought the best approach would be to
+estimate a linear regression model, with `tip percentage` as the
+dependent variable, and the `Key Predictor` and `Confounders` as the
+independent variables. This model will allow for easy interpretation fo
+the regression coefficients and their statistical significance, as well
+as allow for flexibility in modelling interaction effects between
+independent variables.
+
+**Assumptions of Linear Regression Model**:  
 \- Linearity: Relationship between predictor and mean of outcome should
 be linear  
 \- Independence: Taxi ride observations should be inpdependent of each
@@ -157,7 +168,8 @@ The results of our model are outputted below: <br>
 
 <caption>
 
-Table 1. Summary Table of Model Parameters.
+Table 1. Summary Table of Model Parameters, Dependent Variable = Mean
+Tip Percentage
 
 </caption>
 
@@ -167,17 +179,29 @@ Table 1. Summary Table of Model Parameters.
 
 <th style="text-align:left;">
 
-term
+parameter
 
 </th>
 
-<th style="text-align:right;">
+<th style="text-align:left;">
 
 estimate
 
 </th>
 
-<th style="text-align:right;">
+<th style="text-align:left;">
+
+std.error
+
+</th>
+
+<th style="text-align:left;">
+
+statistic
+
+</th>
+
+<th style="text-align:left;">
 
 p.value
 
@@ -193,19 +217,31 @@ p.value
 
 <td style="text-align:left;">
 
-(Intercept)
+evening
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-11.3639098
+\-0.0757
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0166
+
+</td>
+
+<td style="text-align:left;">
+
+\-4.56
+
+</td>
+
+<td style="text-align:left;">
+
+5.16e-06
 
 </td>
 
@@ -215,19 +251,31 @@ p.value
 
 <td style="text-align:left;">
 
-trip\_distance
+middle\_night
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-\-0.5718536
+0.11
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0192
+
+</td>
+
+<td style="text-align:left;">
+
+5.75
+
+</td>
+
+<td style="text-align:left;">
+
+9.02e-09
 
 </td>
 
@@ -237,19 +285,31 @@ trip\_distance
 
 <td style="text-align:left;">
 
-total\_amount
+morning
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.1290350
+\-0.0519
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0163
+
+</td>
+
+<td style="text-align:left;">
+
+\-3.17
+
+</td>
+
+<td style="text-align:left;">
+
+0.0015
 
 </td>
 
@@ -259,19 +319,31 @@ total\_amount
 
 <td style="text-align:left;">
 
-PUBoroughBrooklyn
+weekend
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-3.8107272
+\-0.0477
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0211
+
+</td>
+
+<td style="text-align:left;">
+
+\-2.26
+
+</td>
+
+<td style="text-align:left;">
+
+0.024
 
 </td>
 
@@ -281,19 +353,31 @@ PUBoroughBrooklyn
 
 <td style="text-align:left;">
 
-PUBoroughEWR
+evening\*weekend
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-\-10.3295247
+\-0.0418
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0325
+
+</td>
+
+<td style="text-align:left;">
+
+\-1.29
+
+</td>
+
+<td style="text-align:left;">
+
+0.199
 
 </td>
 
@@ -303,19 +387,31 @@ PUBoroughEWR
 
 <td style="text-align:left;">
 
-PUBoroughManhattan
+middle\_night\*weekend
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-3.6565577
+\-0.604
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0.0000000
+0.0315
+
+</td>
+
+<td style="text-align:left;">
+
+\-19.2
+
+</td>
+
+<td style="text-align:left;">
+
+2.93e-82
 
 </td>
 
@@ -325,218 +421,31 @@ PUBoroughManhattan
 
 <td style="text-align:left;">
 
-PUBoroughQueens
+morning\*weekend
 
 </td>
-
-<td style="text-align:right;">
-
-4.5231453
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
-PUBoroughStaten
-Island
+0.323
 
 </td>
-
-<td style="text-align:right;">
-
-\-3.0086196
-
-</td>
-
-<td style="text-align:right;">
-
-0.1998878
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
-PUBoroughUnknown
+0.0335
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-3.1337681
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
+9.62
 
 </td>
 
-</tr>
+<td style="text-align:left;">
 
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupevening
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-\-0.0756946
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0000052
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupmiddle\_night
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.1104871
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0000000
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupmorning
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-\-0.0518863
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0015005
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_wday\_groupweekend
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-\-0.0476605
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0239964
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupevening:pu\_wday\_groupweekend
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-\-0.0417596
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.1985130
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupmiddle\_night:pu\_wday\_groupweekend
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-\-0.6044307
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0000000
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-pu\_time\_of\_day\_groupmorning:pu\_wday\_groupweekend
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.3226173
-
-</td>
-
-<td style="text-align:right;font-weight: bold;color: black !important;background-color: #B0C4DE !important;">
-
-0.0000000
+6.83e-22
 
 </td>
 
@@ -546,18 +455,18 @@ pu\_time\_of\_day\_groupmorning:pu\_wday\_groupweekend
 
 </table>
 
+Note: all estimates of the potential counfounding variables are not
+displayed in the table for readability.
+
 # Discussion
 
 ## Statistical significance
 
-The first 9 rows of our results table are the intercept and the 8
-potential confounding variables we accounted for, so we are not
-interested in these estimates. Many of the variables of interest to us
-are estimated to have statistically significant association with the
-outcome variable of `tip percentage`. To understand the results table,
-it is important to note the reference level group is `weekday` and
-`afternoon`. <br> Breaking down the association analysis by day type:
-<br>
+Almost all of the variables of interest to us are estimated to have
+statistically significant association with the outcome variable of `tip
+percentage`. To understand the results table, it is important to note
+the reference level group is `weekday` and `afternoon`. <br> Breaking
+down the association analysis by day type: <br>
 
 **Weekdays**: Evening and morning rides are significantly *lower* than
 weekday afternoon rides, while weekday middle of the night rides are
@@ -587,7 +496,7 @@ approximate week of earnings), this would be an estimated difference of
 approximately $![7.50](https://latex.codecogs.com/png.latex?7.50
 "7.50").
 
-## Future Direction and Implementations
+## Limitations and Future Directions
 
 Linear regression has strict assumptions on relationship between
 predictors and response and on distribution of errors. Although it is
