@@ -7,8 +7,8 @@ data/taxis_clean.csv : data/taxis.csv src/data_cleaning.R
 	Rscript src/data_cleaning.R data/taxis.csv data/taxis_clean.csv
 
 # Create EDA visualizations
-fig : data/taxis_clean.csv src/eda.R
-	Rscript src/eda.R data/taxis_clean.csv fig/
+fig : data/taxis_clean.csv src/eda/eda.R
+	Rscript src/eda/eda.R data/taxis_clean.csv fig/
 
 # Statistical modelling
 results : data/taxis_clean.csv src/modelling.R
