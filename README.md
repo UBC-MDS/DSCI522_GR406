@@ -40,6 +40,8 @@ A flowchart for the process can be seen below:
 
 ![flow chart](https://github.com/UBC-MDS/DSCI522_GR406/tree/master/results/fig/GR406_flow_chart.png)
 
+<img src="results/fig/GR406_flow_chart.png" width="700"/>
+
 
 ### Dependencies
 - R version 3.6.1 and R packages:
