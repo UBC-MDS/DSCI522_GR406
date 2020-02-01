@@ -2,7 +2,7 @@ Inferential Analysis between Time of Day and Day of Week on Tip
 Percentage for Taxi Rides in New York City
 ================
 Alexander Hinton, James Huang, Jasmine Qin </br>
-2020/01/22 (updated: 2020-01-31)
+2020/01/22 (updated: 2020-02-01)
 
 # Introduction and Aims
 
@@ -77,14 +77,15 @@ percentage.
 
 <img src="../results/fig/time_of_day.png" title="Figure 1. Mean tip percentages by hour." alt="Figure 1. Mean tip percentages by hour." width="70%" />
 
-<br>As well as how mean tip percentage vary over a week.<br>
+<br>As well as how mean tip percentage varies during the course ofa
+week.<br>
 <img src="../results/fig/day_of_week.png" title="Figure 2. Mean tip percentages by day." alt="Figure 2. Mean tip percentages by day." width="70%" />
 
 From the visual inspection, and based on the analysis we wanted to carry
 out, we decided to transform our time feature. Currently all rides are
 recorded with a timestamp, however for our inferential analysis we
-wanted to compare different “time of day” groups". We broke down a 24
-hour day into the following four segments:<br>
+wanted to compare different time-of-day groups. We broke down a 24 hour
+day into the following four segments:<br>
 
   - Morning: rides between 5:00am and 11:59am <br>
   - Afternoon: rides between 12:00pm and 5:59pm <br>
@@ -93,10 +94,10 @@ hour day into the following four segments:<br>
 
 These groups contain an approximately equal proportion of the rides, and
 could also be considered as shifts that a taxi cab driver might work.
-Additionally, we have also created an indicator variable for weekend
-vs. weekday rides, as it appeared there might be a relationship there.
-A final heat map of mean tip percentages split on our time of day
-feature, and weekend/weekday feature can be seen below:
+Additionally, we have also created an indicator variable to separate
+weekend and weekday rides. A final heat map of mean tip percentages
+split on our time of day feature, and weekend/weekday feature can be
+seen below:
 <br>
 
 <img src="../results/fig/heat_map.png" title="Figure 3. Heatmap" alt="Figure 3. Heatmap" width="70%" />
@@ -115,7 +116,7 @@ time of day and day of the week on the mean tip percentage for taxi
 rides in New York City. Before we set up our, we need to carefully
 consider our problem and our relevant variables:<br>
 
-**Outcome**: This is our `tip percentage` variable <br> **Key
+**Outcome**: This is our `tip percentage` variable. <br> **Key
 predictor**: These are the variables of interest, the `time of day`
 group variable as well as `day of week`. We want to know how the
 `Outcome` variable changes with this `Key Predictor` variable. <br>
@@ -498,21 +499,21 @@ approximately $![7.50](https://latex.codecogs.com/png.latex?7.50
 
 ## Limitations and Future Directions
 
-Linear regression has strict assumptions on relationship between
-predictors and response and on distribution of errors. Although it is
-reasonable to assume that tip observations are independent from each
-other, they are not perfectly normally distributed and are right-skewed.
-The fact that linear regression projects response variable on the real
-line is also a problem here, because tip percentage can only be
-non-negative values.
+Linear regression has strict assumptions on the relationship between the
+predictors and the response variable, and on the distribution of errors.
+Although it is reasonable to assume that tip observations are
+independent from each other, they are not perfectly normally distributed
+and are right-skewed. The fact that linear regression projects the
+response variable to any value on the real line is also a problem here,
+because tip percentages can only be non-negative values.
 
 The non-normal errors is not a big issue here because we are using a
-large dataset. When Central Limit Theorem holds, the sampling
+large dataset. When the Central Limit Theorem holds, the sampling
 distribution is approximately Normal and our p-values are still valid.
 We could use a generalized linear model to fit the data, but this means
-that other distributional assumptions will be made to tip percentage and
-having a link function to connect predictors and response will be
-generally less interpretable.
+that other distributional assumptions will be made to tip percentage,
+and including a link function to connect the predictors and response
+will make the parameter estimates less interpretable.
 
 ## Credits
 
