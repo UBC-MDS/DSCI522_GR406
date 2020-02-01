@@ -25,6 +25,9 @@ opt <- docopt(doc)
 main <- function(raw_data_path, clean_data_path){
   oldw <- getOption("warn")
   options(warn = -1)
+  if(!file.exists(raw_data_path)){
+    stop("file does not exist")
+  }
   df <- read_csv(raw_data_path, col_types = cols())
   
   # Read taxi zone info
@@ -67,6 +70,10 @@ main <- function(raw_data_path, clean_data_path){
   
   # Write clean df to file
   write_csv(df, path = clean_data_path)
+  
+  if(!file.exists(clean_data_path)){
+    stop("file write failed")
+  }
 }
 
 # Call main function
