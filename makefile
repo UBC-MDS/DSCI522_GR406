@@ -1,3 +1,7 @@
+# author: James Huang
+# date: 2020-02-05
+all : doc/report.md
+
 # Load taxis_csv from web.
 data/taxis.csv : src/load_csv.py
 	python src/load_csv.py https://raw.githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv data/taxis.csv
@@ -29,10 +33,3 @@ clean :
 	rm -f results/interactive_model.rds
 	rm -f doc/report.md
 	rm -f doc/report.html
-
-all :
-	make data/taxis.csv
-	make data/taxis_clean.csv
-	make results/fig
-	make results/summary_table.rds results/interactive_model.rds
-	make doc/report.md
