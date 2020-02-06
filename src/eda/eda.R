@@ -46,15 +46,19 @@ main <- function(data_in, files_to){
     ggplot(aes(pu_hour, pu_hour_mean)) +
     geom_line() +
     geom_point() +
-    labs(x = "Pick-up hour in a day", y = "Mean tip percentage (%)",
+    labs(x = "Time Passengers Picked Up", y = "Mean tip percentage (%)",
          title = "Mean Tip Percentages by Hours in a Day") +
     theme(axis.title = element_text(size = 18),
-          axis.text.x= element_text(size = 14),
-          axis.text.y= element_text(size = 14))
+          axis.text.x= element_text(size = 16),
+          axis.text.y= element_text(size = 16),
+          plot.title = element_text(size = 20))
   
   # SECOND GRAPH
   # mean tip percentage vs. day of a week
   day_of_week <- taxi %>%
+    mutate(pu_wday = factor(pu_wday, 
+                            levels = c("Monday", "Tuesday", "Wednesday", "Thursday", 
+                                       "Friday", "Saturday", "Sunday"))) %>% 
     group_by(pu_wday) %>%
     summarise(pu_wday_mean = mean(tip_pct)) %>%
     ggplot(aes(factor(pu_wday), pu_wday_mean)) +
@@ -63,22 +67,28 @@ main <- function(data_in, files_to){
     labs(x = "Trip on day of a week", y = "Mean tip percentage (%)",
          title = "Mean Tip Percentages by Days of a Week") +
     theme(axis.title = element_text(size = 18),
-          axis.text.x= element_text(size = 14),
-          axis.text.y= element_text(size = 14))
+          axis.text.x= element_text(size = 16),
+          axis.text.y= element_text(size = 16),
+          plot.title = element_text(size = 20))
   
   # THRID GRAPH
   # Heatmap of weekday group x time of day group on tip percentage
-  heatmap <- taxi %>% 
-    filter(tip_pct < 30) %>%
-    ggplot(aes(pu_time_of_day_group, pu_wday_group)) + 
-    geom_tile(aes(fill=tip_pct)) +
+  text_layer <- taxi %>%
+    group_by(pu_time_of_day_group, pu_wday_group) %>%
+    summarise(mean_tip = round(mean(tip_pct),2))
+  
+  heatmap <- text_layer %>%
+    ggplot(aes(pu_time_of_day_group, pu_wday_group)) +
+    geom_tile(aes(fill=mean_tip)) +
+    geom_text(aes(label=mean_tip), data=text_layer) +
     labs(x = "", y = "", fill = "Tip percentage (%)",
          title = "Heatmap of Weekday and Time of Day Interaction") +
-    theme(axis.text.x= element_text(size = 14),
-          axis.text.y= element_text(size = 14),
-          legend.text=element_text(size=14),
-          legend.title=element_text(size=15)) +
-    scale_fill_distiller(palette = "Spectral")
+    theme(axis.text.x= element_text(size=14),
+          axis.text.y= element_text(size=14),
+          legend.text=element_text(size=12),
+          legend.title=element_text(size=15),
+          plot.title = element_text(size=17)) +
+    scale_fill_distiller(limits=c(14, 16), direction=1)
   
   # weekday vs. weekend summary statistics
   wkday_gp_sample_stat <- taxi %>% 
@@ -105,8 +115,8 @@ main <- function(data_in, files_to){
     dir.create(files_to)
   })
   
-  ggsave(paste0(files_to, "/time_of_day.png"), time_of_day, width = 10, height = 8)
-  ggsave(paste0(files_to, "/day_of_week.png"), day_of_week, width = 10, height = 8)
+  ggsave(paste0(files_to, "/time_of_day.png"), time_of_day, width = 9, height = 7)
+  ggsave(paste0(files_to, "/day_of_week.png"), day_of_week, width = 9, height = 7)
   ggsave(paste0(files_to, "/heat_map.png"), heatmap, width = 8, height = 4)
   ggsave(paste0(files_to, "/day_of_week_group.png"), day_of_week_group, width = 10, height = 8)
 }

@@ -2,7 +2,7 @@ Inferential Analysis between Time of Day and Day of Week on Tip
 Percentage for Taxi Rides in New York City
 ================
 Alexander Hinton, James Huang, Jasmine Qin </br>
-2020/01/22 (updated: 2020-02-01)
+2020/01/22 (updated: 2020-02-05)
 
 # Introduction and Aims
 
@@ -75,11 +75,32 @@ To further understand the data, we first visualized if there was a
 relationship between hour of the day, and the mean tip
 percentage.
 
-<img src="../results/fig/time_of_day.png" title="Figure 1. Mean tip percentages by hour." alt="Figure 1. Mean tip percentages by hour." width="70%" />
+<div class="figure">
+
+<img src="../results/fig/time_of_day.png" alt="Figure 1. Mean tip percentages by hour." width="70%" />
+
+<p class="caption">
+
+Figure 1. Mean tip percentages by hour.
+
+</p>
+
+</div>
 
 <br>As well as how mean tip percentage varies during the course ofa
 week.<br>
-<img src="../results/fig/day_of_week.png" title="Figure 2. Mean tip percentages by day." alt="Figure 2. Mean tip percentages by day." width="70%" />
+
+<div class="figure">
+
+<img src="../results/fig/day_of_week.png" alt="Figure 2. Mean tip percentages by day." width="70%" />
+
+<p class="caption">
+
+Figure 2. Mean tip percentages by day.
+
+</p>
+
+</div>
 
 From the visual inspection, and based on the analysis we wanted to carry
 out, we decided to transform our time feature. Currently all rides are
@@ -100,7 +121,17 @@ split on our time of day feature, and weekend/weekday feature can be
 seen below:
 <br>
 
-<img src="../results/fig/heat_map.png" title="Figure 3. Heatmap" alt="Figure 3. Heatmap" width="70%" />
+<div class="figure">
+
+<img src="../results/fig/heat_map.png" alt="Figure 3. Heatmap" width="70%" />
+
+<p class="caption">
+
+Figure 3. Heatmap
+
+</p>
+
+</div>
 
 From the heatmap we can see that mean tip percentages are highest in the
 afternoon/evening, and that the relationship between time of day and tip
