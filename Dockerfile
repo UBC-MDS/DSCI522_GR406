@@ -1,3 +1,7 @@
+# author: Alexander Hinton
+# date: 2020-02-06
+
+# Use tidvyverse as base image
 FROM rocker/tidyverse
 
 RUN apt-get update
@@ -12,7 +16,6 @@ RUN Rscript -e "install.packages('kableExtra')"
 RUN Rscript -e "install.packages('gridExtra')"
 
 
-# Add the ananoconda distribution of Python
 # Install python 3
 RUN apt-get update \
   && apt-get install -y python3-pip python3-dev \
