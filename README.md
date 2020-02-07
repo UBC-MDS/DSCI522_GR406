@@ -16,9 +16,22 @@ After an [Exploratory Data Analysis](https://github.com/UBC-MDS/DSCI522_GR406/bl
 The final report can be read [here](https://github.com/UBC-MDS/DSCI522_GR406/blob/master/doc/report.md).
 
 ## Usage and flowchart
-There are multiple ways to run the analysis on your local machine. The first step is to clone this repository and make sure all dependencies are installed. WARNING: Due to the size of the dataset and the visualizations made, the full process may take around 10 minutes. Please be patient :) 
+There are three ways to run the analysis on your local machine. The first step is to clone this repository. The first method requires installation of Docker and the rest two methods require all dependencies to be installed before running the analysis.
 
-#### Method 1: Using Make
+#### Method 1: Using Docker
+Note - the instructions below depends on running this in a unix shell (e.g., terminal or Git Bash), if you are using Windows Command Prompt, replace /$(pwd) with PATH_ON_YOUR_COMPUTER.
+
+1. Install and run [Docker](https://www.docker.com/get-started)
+2. Navigate to the root of this repo and type the following commands:
+```
+docker run -it --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 all
+```
+3. To undo the analysis, type the following commands:
+```
+docker run -it --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 clean
+```
+
+#### Method 2: Using Make
 From the root of this project directory, run the command: <br>
 ```
 make all
@@ -28,7 +41,7 @@ To remove all the results of the analysis, run the command: <br>
 make clean
 ```
 
-#### Method 2: Using the command line
+#### Method 3: Using the command line
 To run each script independently, run the following commands in order from the root directory of the project: <br>
 
 ```
@@ -48,7 +61,11 @@ Rscript src/modelling.R data/taxis_clean.csv results/
 Rscript -e "rmarkdown::render('doc/report.Rmd')"
 ```
 
-A flowchart for the process can be seen below:
+#### Makefile structure:
+
+<img src="results/fig/Makefile.png" width="900" height="350"/>
+
+#### Flowchart:
 
 <img src="results/fig/GR406_flow_chart.png" width="900"/>
 
@@ -66,6 +83,10 @@ A flowchart for the process can be seen below:
     - GGally	1.4.0
     - docopt	0.6.1
     - RCurl		1.98 -  1.1
+- Python version 3.7.3 packages:
+    - docopt     0.6.2
+    - pandas     0.24.2
+    - validators 0.14.2
     
 #### References
 1. New York City Open Data, 2017 Yellow Taxi Trip Data, https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs 
