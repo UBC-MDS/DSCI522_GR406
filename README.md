@@ -24,11 +24,11 @@ Note - the instructions below depends on running this in a unix shell (e.g., ter
 1. Install and run [Docker](https://www.docker.com/get-started)
 2. Navigate to the root of this repo and type the following commands:
 ```
-docker run -it --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 all
+docker run --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 all
 ```
 3. To undo the analysis, type the following commands:
 ```
-docker run -it --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 clean
+docker run --rm -v /$(pwd):/home/DSCI522_GR406 jamesh4/dsci522_gr406 make -C /home/DSCI522_GR406 clean
 ```
 
 #### Method 2: Using Make
