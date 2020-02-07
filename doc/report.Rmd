@@ -47,39 +47,40 @@ The data provides many features about each observation, including:<br>
 
 The dataset could not be downloaded directly with a url, and thus had to be reuploaded to a github repo. The size of the file greatly exceeded the 100 MB size limit of github uploads, so the data was randomly sampled to include 1 million observations from the original 9 million observations. The location of the file we are using in the analysis can be found and downloaded [here](https://raw githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv).
 
-## Wrangling and Exploratory Data Analysis
+## Data Wrangling
 For our problem, we have created an additional variable called of __tip percentage__, which is calculated as:
 $$\frac{\text{tip}}{\text{total fare}}*100$$
 This transformation was carried out for the main reason that most individuals tip not in absolute terms but in percentages, and therefore a gross value of tip is extremely correlated with the ride fare. When using a credit or debit card to make a transaction, the tip option is usually specified as a percentage, making it most logical that we use tip percentage as our dependent variable. We have mapped location ID's from the dataset into their unique boroughs in New York City. The link to this dataset can be found [here](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page). By reducing the location ID's to 5 from over 200 we are improving the parameter estimates in the modelling, as well as making them more interpretable. We have only included rides where payment was made with a credit card, as these are the only rides where the tip amounts were recorded.
 
-To further understand the data, we first visualized if there was a relationship between hour of the day, and the mean tip percentage.  
-
+## Exploratory Data Analysis
+To begin to understand patterns in the data, we first visualized if there was a relationship between the hour of the day the passeneger was picked up, and the mean tip percentage, which can be seen in `Figure 1`.<br><br>
 ```{r mean-percentages by hour, echo=FALSE, fig.cap="Figure 1. Mean tip percentages by hour.", out.width = '70%'}
 knitr::include_graphics("../results/fig/time_of_day.png")
 ```
 
-<br>As well as how mean tip percentage varies during the course ofa week.<br>
+A cyclical trend can be observed, where it seems rides in the middle of the day have a mean tip approximately one percentage point higher than rides in the middle of the night/early morning. <br>
+We then visualized if there was any relationship between the day of the week, and the mean tip percentages of rides, which can be seen in `Figure 2`.<br><br>
 ```{r mean-percentages by day, echo=FALSE, fig.cap="Figure 2. Mean tip percentages by day.", out.width = '70%'}
 knitr::include_graphics("../results/fig/day_of_week.png")
 ```
 
-From the visual inspection, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare different time-of-day groups. We broke down a 24 hour day into the following four segments:<br>
+It appears that there is a small difference in mean tip percentage between weekday rides and weekend rides, where weekday rides seem to have approximately an extra quater of a percentage in tip than weekend rides.<br>
+From the visual examination of `Figure 1` and `Figure 2`, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare different time-of-day groups. We broke down a 24 hour day into the following four segments:<br>
 
 * Morning: rides between 5:00am and 11:59am <br>
 * Afternoon: rides between 12:00pm and 5:59pm <br>
 * Evening: rides between 6:00pm and 9:59pm <br>
 * Middle of the night: rides between 10:00pm and 4:59am <br>
 
-These groups contain an approximately equal proportion of the rides, and could also be considered as shifts that a taxi cab driver might work. Additionally, we have also created an indicator variable to separate weekend and weekday rides. A final heat map of mean tip percentages split on our time of day feature, and weekend/weekday feature can be seen below: <br>
-
+These groups contain an approximately equal proportion of the total rides, and could also be considered as shifts that a taxi driver might work. Additionally, we have also created an indicator variable to separate weekend and weekday rides. Aheat map of mean tip percentages split on our time of day feature, and weekend/weekday feature can be seen in `Figure 3`: <br><br>
 ```{r heatmap, echo=FALSE, fig.cap="Figure 3. Heatmap", out.width = '70%'}
 knitr::include_graphics("../results/fig/heat_map.png")
 ```
 
-From the heatmap we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that their appears to be an interaction effect between time of day and day of the week, which is an important consideration in our statistical modelling.
+From `Figure 3` we can see that mean tip percentages are highest in the afternoon/evening, and that the relationship between time of day and tip percentage is different between weekends and weekdays. This information provided intuition that their appears to be an interaction effect between time of day and day of the week, which is an important consideration in our statistical modelling.
 
 # Model
-The question we are asking is whether there is an association between time of day and day of the week on the mean tip percentage for taxi rides in New York City. Before we set up our, we need to carefully consider our problem and our relevant variables:<br>
+The question we are asking is whether there is an association between time of day and day of the week on the mean tip percentage for taxi rides in New York City. Before we set up our model, we need to carefully consider our problem and our relevant variables:<br>
 
 __Outcome__: This is our `tip percentage` variable. <br>
 __Key predictor__: These are the variables of interest, the `time of day` group variable as well as `day of week`. We want to know how the `Outcome` variable changes with this `Key Predictor` variable. <br>
@@ -100,7 +101,7 @@ Where $z$ are the potential confounding variables we are controlling for, $\gamm
 
 # Results
 
-The results of our model are outputted below: <br>
+The parameter estimates of the `key predictor` variables in our model are shown in `Table 1`: <br><br>
 ```{r}
 model_summary %>% 
   kable(caption = "Table 1. Summary Table of Model Parameters, Dependent Variable = Mean Tip Percentage", 
@@ -108,7 +109,7 @@ model_summary %>%
   kable_styling()  
 
 ```
-Note: all estimates of the potential counfounding variables are not displayed in the table for readability. 
+Note: parameter estimates of the potential counfounding variables are not displayed in the table for readability. 
 
 # Discussion
 ## Statistical significance
