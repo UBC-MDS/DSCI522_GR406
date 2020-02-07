@@ -47,7 +47,7 @@ main <- function(data_in, files_to){
     geom_line() +
     geom_point() +
     labs(x = "Time Passengers Picked Up", y = "Mean tip percentage (%)",
-         title = "Mean Tip Percentages by Hours in a Day") +
+         title = "Mean Tip Percentage by Hour of Day") +
     theme(axis.title = element_text(size = 18),
           axis.text.x= element_text(size = 16),
           axis.text.y= element_text(size = 16),
@@ -65,7 +65,7 @@ main <- function(data_in, files_to){
     geom_bar(stat = 'identity') +
     coord_cartesian(ylim = c(12, 16)) +
     labs(x = "Trip on day of a week", y = "Mean tip percentage (%)",
-         title = "Mean Tip Percentages by Days of a Week") +
+         title = "Mean Tip Percentage by Day of Week") +
     theme(axis.title = element_text(size = 18),
           axis.text.x= element_text(size = 16),
           axis.text.y= element_text(size = 16),
