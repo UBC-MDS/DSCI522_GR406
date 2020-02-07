@@ -64,7 +64,7 @@ We then visualized if there was any relationship between the day of the week, an
 knitr::include_graphics("../results/fig/day_of_week.png")
 ```
 
-It appears that there is a small difference in mean tip percentage between weekday rides and weekend rides, where weekday rides seem to have approximately an extra quater of a percentage in tip than weekend rides.<br>
+It appears that there is a small difference in mean tip percentage between weekday rides and weekend rides, where weekday rides have approximately an additional quarter of a percentage in average tip than weekend rides.<br><br>
 From the visual examination of `Figure 1` and `Figure 2`, and based on the analysis we wanted to carry out, we decided to transform our time feature. Currently all rides are recorded with a timestamp, however for our inferential analysis we wanted to compare different time-of-day groups. We broke down a 24 hour day into the following four segments:<br>
 
 * Morning: rides between 5:00am and 11:59am <br>
