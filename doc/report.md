@@ -2,7 +2,7 @@ Inferential Analysis between Time of Day and Day of Week on Tip
 Percentage for Taxi Rides in New York City
 ================
 Alexander Hinton, James Huang, Jasmine Qin </br>
-2020/01/22 (updated: 2020-02-05)
+2020/01/22 (updated: 2020-02-07)
 
 # Introduction and Aims
 
@@ -49,7 +49,7 @@ observations. The location of the file we are using in the analysis can
 be found and downloaded
 [here](https://raw%20githubusercontent.com/jamesh4/yellow_tripdata_2017_02/master/taxi_smaller.csv).
 
-## Wrangling and Exploratory Data Analysis
+## Data Wrangling
 
 For our problem, we have created an additional variable called of **tip
 percentage**, which is calculated as:   
@@ -71,9 +71,12 @@ interpretable. We have only included rides where payment was made with a
 credit card, as these are the only rides where the tip amounts were
 recorded.
 
-To further understand the data, we first visualized if there was a
-relationship between hour of the day, and the mean tip
-percentage.
+## Exploratory Data Analysis
+
+To begin to understand patterns in the data, we first visualized if
+there was a relationship between the hour of the day the passeneger was
+picked up, and the mean tip percentage, which can be seen in
+`Figure 1`.<br><br>
 
 <div class="figure">
 
@@ -87,8 +90,12 @@ Figure 1. Mean tip percentages by hour.
 
 </div>
 
-<br>As well as how mean tip percentage varies during the course ofa
-week.<br>
+A cyclical trend can be observed, where it seems rides in the middle of
+the day have a mean tip approximately one percentage point higher than
+rides in the middle of the night/early morning. <br> We then visualized
+if there was any relationship between the day of the week, and the mean
+tip percentages of rides, which can be seen in
+`Figure 2`.<br><br>
 
 <div class="figure">
 
@@ -102,24 +109,28 @@ Figure 2. Mean tip percentages by day.
 
 </div>
 
-From the visual inspection, and based on the analysis we wanted to carry
-out, we decided to transform our time feature. Currently all rides are
-recorded with a timestamp, however for our inferential analysis we
-wanted to compare different time-of-day groups. We broke down a 24 hour
-day into the following four segments:<br>
+It appears that there is a small difference in mean tip percentage
+between weekday rides and weekend rides, where weekday rides seem to
+have approximately an extra quater of a percentage in tip than weekend
+rides.<br> From the visual examination of `Figure 1` and `Figure 2`, and
+based on the analysis we wanted to carry out, we decided to transform
+our time feature. Currently all rides are recorded with a timestamp,
+however for our inferential analysis we wanted to compare different
+time-of-day groups. We broke down a 24 hour day into the following four
+segments:<br>
 
   - Morning: rides between 5:00am and 11:59am <br>
   - Afternoon: rides between 12:00pm and 5:59pm <br>
   - Evening: rides between 6:00pm and 9:59pm <br>
   - Middle of the night: rides between 10:00pm and 4:59am <br>
 
-These groups contain an approximately equal proportion of the rides, and
-could also be considered as shifts that a taxi cab driver might work.
-Additionally, we have also created an indicator variable to separate
-weekend and weekday rides. A final heat map of mean tip percentages
+These groups contain an approximately equal proportion of the total
+rides, and could also be considered as shifts that a taxi driver might
+work. Additionally, we have also created an indicator variable to
+separate weekend and weekday rides. Aheat map of mean tip percentages
 split on our time of day feature, and weekend/weekday feature can be
-seen below:
-<br>
+seen in `Figure 3`:
+<br><br>
 
 <div class="figure">
 
@@ -133,7 +144,7 @@ Figure 3. Heatmap
 
 </div>
 
-From the heatmap we can see that mean tip percentages are highest in the
+From `Figure 3` we can see that mean tip percentages are highest in the
 afternoon/evening, and that the relationship between time of day and tip
 percentage is different between weekends and weekdays. This information
 provided intuition that their appears to be an interaction effect
@@ -144,7 +155,7 @@ consideration in our statistical modelling.
 
 The question we are asking is whether there is an association between
 time of day and day of the week on the mean tip percentage for taxi
-rides in New York City. Before we set up our, we need to carefully
+rides in New York City. Before we set up our model, we need to carefully
 consider our problem and our relevant variables:<br>
 
 **Outcome**: This is our `tip percentage` variable. <br> **Key
@@ -194,7 +205,8 @@ on the visual inspection of the heatmap above.
 
 # Results
 
-The results of our model are outputted below: <br>
+The parameter estimates of the `key predictor` variables in our model
+are shown in `Table 1`: <br><br>
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 
@@ -487,8 +499,8 @@ morning\*weekend
 
 </table>
 
-Note: all estimates of the potential counfounding variables are not
-displayed in the table for readability.
+Note: parameter estimates of the potential counfounding variables are
+not displayed in the table for readability.
 
 # Discussion
 
