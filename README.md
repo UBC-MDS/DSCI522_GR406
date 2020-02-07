@@ -61,11 +61,11 @@ Rscript src/modelling.R data/taxis_clean.csv results/
 Rscript -e "rmarkdown::render('doc/report.Rmd')"
 ```
 
-Makefile structure:
+#### Makefile structure:
 
-<img src="results/fig/Makefile.png" width="900"/>
+<img src="results/fig/Makefile.png" width="900" height="350"/>
 
-A flowchart for the process can be seen below:
+#### Flowchart:
 
 <img src="results/fig/GR406_flow_chart.png" width="900"/>
 
@@ -83,6 +83,10 @@ A flowchart for the process can be seen below:
     - GGally	1.4.0
     - docopt	0.6.1
     - RCurl		1.98 -  1.1
+- Python version 3.7.3 packages:
+    - docopt     0.6.2
+    - pandas     0.24.2
+    - validators 0.14.2
     
 #### References
 1. New York City Open Data, 2017 Yellow Taxi Trip Data, https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs 
