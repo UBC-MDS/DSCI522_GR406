@@ -1,5 +1,10 @@
 # author: Alexander Hinton
 # date: 2020-02-06
+#
+# This docker image loads all the requirements for use in the NYC Taxi project
+# Rocker/tidyverse is the base image, upon which other R packages are installed.
+# Python3 and other required python packages are subsequently installed.
+# Usage for this docker image is explained in the Readme
 
 # Use tidvyverse as base image
 FROM rocker/tidyverse
